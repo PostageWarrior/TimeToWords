@@ -7,10 +7,9 @@ const QUARTER_TO = "quarter to ";
 const MIN_TO = " minute to ";
 const MINS_TO = " minutes to ";
 
-const HOURS_ARR = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve" ];
-const MINUTES_ONES = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten" ];
-const MINUTES_TEENS = [ "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" ];
-const MINUTES_TENS = [ "ten", "twenty", "thirty", "fourty", "fifty", "sixty" ];
+const ONES = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ];
+const TEENS = [ "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" ];
+const TENS = [ "ten", "twenty", "thirty", "fourty", "fifty", "sixty" ];
 
 function convert(hr, min){
     if ((hr > 0 && hr <= 12) && (min >= 0 || min <= 59)){
@@ -46,21 +45,29 @@ function convert(hr, min){
 }
 
 function getHours(hr){
-    return HOURS_ARR[hr - 1];
+    if (hr < 10){
+        return ONES[hr - 1];
+    }
+    else if (hr == 10){
+        return TENS[0];
+    }
+    else {
+        return TEENS[(min % 10) -1];
+    }
 }
 
 function getMinutes(min){
-    if (min <= 10){
-        return MINUTES_ONES[min - 1];
+    if (min < 10){
+        return ONES[min - 1];
     }
     else if (min > 10 && min < 20){
-        return MINUTES_TEENS[(min % 10) - 1];
+        return TEENS[(min % 10) - 1];
     }
-    else if (min > 10 && min % 10 == 0){
-        return MINUTES_TENS[(min / 10) - 1];
+    else if (min >= 10 && min % 10 == 0){
+        return TENS[(min / 10) - 1];
     }
     else {
-        return MINUTES_TENS[Math.floor(min / 10) - 1] + " " + MINUTES_ONES[(min % 10) - 1];
+        return TENS[Math.floor(min / 10) - 1] + " " + ONES[(min % 10) - 1];
     }
 }
 
